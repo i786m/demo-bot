@@ -1,13 +1,25 @@
 {
-  "name": "demo-bot",
-  "version": "1.0.0",
-  "description": "",
-  "main": "src/index.mjs",
-  "type": "module",
-  "scripts": {
-    "start": "node src/index.mjs"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+	"name": "demo-bot",
+	"version": "1.0.0",
+	"description": "Automated reminder bot for Slack",
+	"main": "src/index.mjs",
+	"type": "module",
+	"scripts": {
+		"start": "node src/index.mjs"
+	},
+	"keywords": [
+		"slack",
+		"bot",
+		"reminder",
+		"automation",
+		"CYF",
+		"demo day",
+		"github actions"
+	],
+	"author": "Imran Mohamed",
+	"license": "MIT",
+	"dependencies": {
+		"@slack/web-api": "^7.14.1",
+		"dotenv": "^17.3.1"
+	}
 }
