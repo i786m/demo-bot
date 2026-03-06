@@ -38,11 +38,64 @@ export function getOrdinalNumber(number) {
  * @returns {string} - The formatted date string
  */
 export function formatDate(date) {
-	const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-	const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+	const days = [
+		'Sunday',
+		'Monday',
+		'Tuesday',
+		'Wednesday',
+		'Thursday',
+		'Friday',
+		'Saturday',
+	];
+	const months = [
+		'January',
+		'February',
+		'March',
+		'April',
+		'May',
+		'June',
+		'July',
+		'August',
+		'September',
+		'October',
+		'November',
+		'December',
+	];
 	const dayOfWeek = days[date.getDay()];
 	const dayOfMonth = getOrdinalNumber(date.getDate());
 	const month = months[date.getMonth()];
 	const year = date.getFullYear();
 	return `${dayOfWeek} ${dayOfMonth} of ${month} ${year}`;
+}
+
+/**
+ * Checks if the given date falls within the holiday period.
+ * The holiday period starts the day after the later of the last Monday or Thursday before Christmas Eve (Dec 24), and ends on January 2nd of the following year. Christmas Eve is always included in the holiday period.
+ * @param {Date} [today] - The date to check (defaults to current date)
+ * @returns {boolean} - True if the date is within the holiday period, false otherwise
+ * @example
+ * isHolidayPeriod(new Date('2026-12-24')); // true (Christmas Eve is a holiday)
+ * isHolidayPeriod(new Date('2026-12-21')); // false (last working day)
+ * isHolidayPeriod(new Date('2026-12-25')); // true
+ * isHolidayPeriod(new Date('2027-01-03')); // false
+ */
+export function isHolidayPeriod(today = new Date()) {
+	const year = today.getFullYear();
+	const christmasEve = new Date(year, 11, 24);
+	const newYear = new Date(year + 1, 0, 2);
+	const lastMondayBeforeChristmasEve = new Date(christmasEve);
+	lastMondayBeforeChristmasEve.setDate(
+		christmasEve.getDate() - ((christmasEve.getDay() + 6) % 7),
+	);
+	const lastThursdayBeforeChristmasEve = new Date(christmasEve);
+	lastThursdayBeforeChristmasEve.setDate(
+		christmasEve.getDate() - ((christmasEve.getDay() + 3) % 7),
+	);
+	const lastDemoDay =
+		lastMondayBeforeChristmasEve > lastThursdayBeforeChristmasEve ?
+			lastMondayBeforeChristmasEve
+		:	lastThursdayBeforeChristmasEve;
+	const holidayStart = new Date(lastDemoDay);
+	holidayStart.setDate(lastDemoDay.getDate() + 1);
+	return today >= holidayStart && today <= newYear;
 }

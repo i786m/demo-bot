@@ -1,5 +1,5 @@
-import { getRandomHeaderEmoji, getRandomCtaEmoji } from "./emojis.mjs";
-import { getRandomElementFrom } from "./utils.mjs";
+import { getRandomHeaderEmoji, getRandomCtaEmoji } from './emojis.mjs';
+import { getRandomElementFrom } from '../utils/utils.mjs';
 
 const headerMessages = [
 	"It's almost here: Demo Day is tomorrow!",
@@ -38,10 +38,10 @@ const ctaMessages = [
  * @returns {string} - A random header message
  */
 export const getRandomHeaderMessage = (workspace) => {
-    const emoji1 = getRandomHeaderEmoji(workspace);
-    const emoji2 = getRandomHeaderEmoji(workspace);
-    const message = getRandomElementFrom(headerMessages);
-    return `${emoji1} ${message} ${emoji2}`;
+	const emoji1 = getRandomHeaderEmoji(workspace);
+	const emoji2 = getRandomHeaderEmoji(workspace);
+	const message = getRandomElementFrom(headerMessages);
+	return `${emoji1} ${message} ${emoji2}`;
 };
 
 /**
@@ -50,8 +50,18 @@ export const getRandomHeaderMessage = (workspace) => {
  * @returns {string} - A random CTA message
  */
 export const getRandomCtaMessage = (workspace) => {
-    const emoji1 = getRandomCtaEmoji(workspace);
-    const emoji2 = getRandomCtaEmoji(workspace);
-    const message = getRandomElementFrom(ctaMessages);
-    return `${emoji1} ${message} ${emoji2}`;
+	const emoji1 = getRandomCtaEmoji(workspace);
+	const emoji2 = getRandomCtaEmoji(workspace);
+	const message = getRandomElementFrom(ctaMessages);
+	return `${emoji1} ${message} ${emoji2}`;
+};
+
+/**
+ * Gets a holiday message to be sent during the holiday period
+ * @returns {string} - A holiday message
+ */
+export const getHolidayMessage = () => {
+	const holidayMessage =
+		'\n\n:tada: *Happy Holidays!* :tada:\n\nJust a reminder that there will be no demo sessions during the holiday period.\n\nWe look forward to seeing you back for more amazing demos after the holidays!\n\nWe hope you have a wonderful time celebrating with your loved ones! \n\n:christmas_tree: :santa: :gift: :snowflake: :snowman: :sparkles: :fireworks: :confetti_ball: :balloon: :tada: :clinking_glasses: :champagne:';
+	return holidayMessage;
 };
