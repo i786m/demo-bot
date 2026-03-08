@@ -1,0 +1,48 @@
+name: Scheduled Bot Run
+
+on:
+  schedule:
+    # Runs at 8:00 AM UTC on Monday and Thursday
+    - cron: '0 8 * * 1,4'
+  workflow_dispatch: # Allows manual triggering from GitHub UI
+
+concurrency:
+  group: bot-daily-run
+  cancel-in-progress: true
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Run bot
+        env:
+          SLACK_BOT_DEV_TOKEN: ${{ secrets.SLACK_BOT_DEV_TOKEN }}
+          SLACK_DEV_CHANNEL_ID: ${{ secrets.SLACK_DEV_CHANNEL_ID }}
+          SLACK_BOT_ITD_TOKEN: ${{ secrets.SLACK_BOT_ITD_TOKEN }}
+          SLACK_ITD_CHANNEL_ID: ${{ secrets.SLACK_ITD_CHANNEL_ID }}
+          SLACK_BOT_ITP_TOKEN: ${{ secrets.SLACK_BOT_ITP_TOKEN }}
+          SLACK_ITP_CHANNEL_ID: ${{ secrets.SLACK_ITP_CHANNEL_ID }}
+          SLACK_BOT_CYF_TOKEN: ${{ secrets.SLACK_BOT_CYF_TOKEN }}
+          SLACK_CYF_CHANNEL_ID: ${{ secrets.SLACK_CYF_CHANNEL_ID }}
+          MEET_LINK: ${{ secrets.MEET_LINK }}
+        run: npm start
+      
+      - name: Post success message
+        if: success()
+        run: echo "Bot ran successfully at $(date)"
+      
+      - name: Post failure message
+        if: failure()
+        run: echo "Bot failed to run at $(date)"
