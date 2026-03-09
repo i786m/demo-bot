@@ -13,15 +13,21 @@ export function generateMessage(workspace) {
     const dayOfWeek = today.getDay();
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
-    const demoSchedule =
-		dayOfWeek === 1 ? `6:00 PM to 6:50 PM` : `11:00 AM to 11:50 AM`;
+    const demoSchedule = `${dayOfWeek === 1 ? `6:00 PM to 6:50 PM` : `11:00 AM to 11:50 AM`} (Timezone: London)`;
     const tomorrowFormatted = formatDate(tomorrow);
     const demoTime = `:calendar: *When?* ${tomorrowFormatted} from ${demoSchedule}`;
     const meetLink = `:link: *Where?* ${process.env.MEET_LINK}`;
     const messageHeader = getRandomHeaderMessage(workspace);
     const messageCta = getRandomCtaMessage(workspace);
     const presenterMessage =
-		'_Please reply to this thread:thread: if you want to give a demo._';
-    const fullMessage = `${messageHeader}\n\n${demoTime}\n${meetLink}\n\n${messageCta}\n\n${presenterMessage}`;
+		'_:index_pointing_at_the_viewer:Want to give a demo? Please reply to this thread:thread:_';
+     const demoLengths =
+			workspace === 'ITD' || workspace === 'ITP' ?
+				'5 - 10 minutes max': workspace === 'CYF' ?
+					'PISCINE - 2 minutes & SDC/LAUNCH - 5 minutes' : 
+          'ITP/ITD: 5 - 10 minutes max, PISCINE: 2 minutes & SDC/LAUNCH: 5 minutes';
+		const demoLengthMessage = 
+    `:stopwatch: *Demo length: * ${demoLengths}`;
+    const fullMessage = `${messageHeader}\n\n${demoTime}\n${meetLink}\n\n${presenterMessage}\n\n${demoLengthMessage}\n\n${messageCta}`;
     return isHolidayPeriod() ? getHolidayMessage() : fullMessage;
 }
